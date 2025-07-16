@@ -2,33 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>📋 My Tasks</title>
+    <title>🌟 My Daily Tasks</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="app-wrapper">
-        <div class="todo-box">
-            <h1>📋 My Tasks</h1>
+<div class="full-container">
+    <div class="todo-box">
+        <header class="header">
+            <h1>🌟 My Daily Planner</h1>
+            <p><span th:text="${completedCount}"></span> / <span th:text="${total}"></span> tasks completed</p>
+        </header>
 
-            <form class="todo-form" th:action="@{/add}" method="post">
-                <input type="text" name="task" placeholder="Add a new task..." required />
-                <button type="submit">➕</button>
+        <form class="todo-form" th:action="@{/add}" method="post">
+            <input type="text" name="task" placeholder="Enter a new task..." required>
+            <input type="date" name="dueDate">
+            <button type="submit">➕ Add</button>
+        </form>
+
+        <ul class="todo-list">
+            <li th:each="todo, iter : ${todos}" class="todo-item" th:classappend="${todo.completed} ? 'checked' : ''">
+                <form th:action="@{/complete}" method="post" class="checkbox-form">
+                    <input type="hidden" name="index" th:value="${iter.index}">
+                    <input type="checkbox" onchange="this.form.submit()" th:checked="${todo.completed}">
+                </form>
+                <div class="task-details">
+                    <span th:text="${todo.task}"></span>
+                    <small th:if="${todo.dueDate}" th:text="'Due: ' + ${todo.dueDate}"></small>
+                </div>
+                <form th:action="@{/delete}" method="post">
+                    <input type="hidden" name="index" th:value="${iter.index}">
+                    <button class="delete-btn">🗑</button>
+                </form>
+            </li>
+        </ul>
+
+        <div class="footer-buttons">
+            <form th:action="@{/clearCompleted}" method="post">
+                <button type="submit" class="footer-btn">✅ Clear Completed</button>
             </form>
-
-            <ul class="todo-list">
-                <li th:each="todo, iter : ${todos}" class="todo-item">
-                    <label class="task-label">
-                        <input type="checkbox" th:checked="${todo.completed}" onclick="this.form.submit()" />
-                        <span th:text="${todo.task}" th:classappend="${todo.completed} ? 'checked' : ''"></span>
-                    </label>
-                    <form th:action="@{/complete}" method="post">
-                        <input type="hidden" name="index" th:value="${iter.index}" />
-                    </form>
-                </li>
-            </ul>
+            <form th:action="@{/clearAll}" method="post">
+                <button type="submit" class="footer-btn danger">🗑 Clear All</button>
+            </form>
         </div>
     </div>
+</div>
 </body>
 </html>
