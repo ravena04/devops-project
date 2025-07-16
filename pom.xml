@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
@@ -12,7 +12,7 @@
         <relativePath/>
     </parent>
 
-    <!-- 🔁 Change packaging from jar to war -->
+    <!-- Change packaging to war -->
     <packaging>war</packaging>
 
     <groupId>com.example</groupId>
@@ -36,7 +36,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- 🔁 Provided scope for external Tomcat -->
+        <!-- Use provided scope for external Tomcat deployment -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
